@@ -1,19 +1,28 @@
 package com.moviewiki.api.genre.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name="genres")
+@Entity
+@Table(name = "GENRES")
 public class Genre {
-    @Id
-    private @Column(name = "genre_id") String genreId;
 
-    private @Column(name = "genre_name") String genreName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name= "GENRE_ID")
+    private String genreId;
+
+    private String genreName;
+
+    public String getGenreId() { return genreId; }
+
+    public void setGenreId(String genreId) { this.genreId = genreId; }
+
+    public String getGenreName() { return genreName; }
+
+    public void setGenreName(String genreName) { this.genreName = genreName; }
 }

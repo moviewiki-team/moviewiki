@@ -1,30 +1,33 @@
 package com.moviewiki.api.actor.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@SequenceGenerator(
-		name = "ACTOR_SEQ_GENERATOR",
-		sequenceName = "ACTOR_SEQ",
-		initialValue = 1,
-		allocationSize = 1)
-@Table(name="actors")
+@Entity
+@Table(name = "ACTORS")
 public class Actor {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-			generator = "ACTOR_SEQ_GENERATOR")
-	@Column(name = "actor_id")
-	private Long actorId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name= "ACTOR_ID")
+    private String actorId;
 
-	private @Column(name = "actor_name")String actorName;
-	private @Column(name = "actor_profile") String actorProfile;
+    private String actorName;
+    private String actorProfile;
 
+    public String getActorId() { return actorId; }
+
+    public void setActorId(String actorId) { this.actorId = actorId; }
+
+    public String getActorName() { return actorName; }
+
+    public void setActorName(String actorName) { this.actorName = actorName; }
+
+    public String getActorProfile() { return actorProfile; }
+
+    public void setActorProfile(String actorProfile) { this.actorProfile = actorProfile; }
 }

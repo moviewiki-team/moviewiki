@@ -1,40 +1,41 @@
 package com.moviewiki.api.following.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.moviewiki.api.user.domain.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.moviewiki.api.user.domain.User;
 
-@Entity
+import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
+@Entity
+@Table(name = "FOLLOWINGS")
 @IdClass(FollowingPK.class)
-@Table(name="following")
 public class Following {
 
-    @Id
     @ManyToOne
-    @JoinColumn(name="fromUser")
-    private User fromUser;
-
+    @JoinColumn(name ="USER_ID")
     @Id
-    @ManyToOne
-    @JoinColumn(name="toUser")
-    private User toUser;
+    private User follower;
 
-    @Builder
-    public Following(User fromUser, User toUser) {
-        this.fromUser = fromUser;
-        this.toUser = toUser;
+    @ManyToOne
+    @JoinColumn(name ="USER_ID")
+    @Id
+    private User followee;
+
+    public User getFollower() {
+        return follower;
+    }
+
+    public void setFollower(User follower) {
+        this.follower = follower;
+    }
+
+    public User getFollowee() {
+        return followee;
+    }
+
+    public void setFollowee(User followee) {
+        this.followee = followee;
     }
 }
