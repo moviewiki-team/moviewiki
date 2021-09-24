@@ -29,7 +29,7 @@ public interface MovieService {
     // 최신 순으로 영화 조회
     List<Movie> findAllOrderByDate();
 
-    // 입력받는 검색 test
+    // 입력받는 검색
 //    public List<Movie> findByMovieNameContaining(String movieName);
     public List<MovieForm> searchMovies(String keyword);
 }

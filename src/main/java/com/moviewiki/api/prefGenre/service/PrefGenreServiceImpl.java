@@ -91,4 +91,26 @@ public class PrefGenreServiceImpl implements PrefGenreService {
         return prefGenreList.subList(0,3);
     }
 
+    // 선호도 영화 목록 가져오기
+    public List<Movie> findAll() {
+        String sql1 = "SELECT * FROM \n" +
+                "(SELECT * FROM MOVIES\n" +
+                "ORDER BY DBMS_RANDOM.VALUE)\n" +
+                "WHERE ROWNUM <=7";
+        List<Movie> MovieList7 = em.createNativeQuery(sql1, Movie.class).getResultList();
+
+        return MovieList7;
+    }
+    public List<Movie> findAll2() {
+        String sql2 = "SELECT * FROM \n" +
+                "(SELECT * from MOVIES \n" +
+                " where MOVIE_ID in \n" +
+                " (select MOVIE_ID from MOVIE_GENRE where GENRE_ID = 'HR') \n " +
+                " order by DBMS_RANDOM.VALUE) \n " +
+                " where ROWNUM <=3";
+        List<Movie> MovieList3 = em.createNativeQuery(sql2, Movie.class).getResultList();
+
+        return MovieList3;
+    }
+
 }

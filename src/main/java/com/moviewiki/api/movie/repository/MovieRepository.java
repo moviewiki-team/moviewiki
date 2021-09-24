@@ -13,7 +13,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     public List<Movie> findAll();
 
-    // 입력받는 검색 test
+    // 입력받는 검색
     List<Movie> findByMovieNameContaining(String movieName);
 //    public List<Movie> getListSearchMovie(String searchName);
 }

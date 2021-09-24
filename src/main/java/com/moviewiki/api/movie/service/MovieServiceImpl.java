@@ -57,7 +57,7 @@ public class MovieServiceImpl implements MovieService{
         return movie.subList(0, 12);
     }
 
-    // 입력받는 검색 test
+    // 입력받는 검색
     @Transactional
     public List<MovieForm> searchMovies(String keyword) {
         List<Movie> movies = movieRepository.findByMovieNameContaining(keyword);
@@ -78,6 +78,7 @@ public class MovieServiceImpl implements MovieService{
                 .movieOgName(movie.getMovieOgName())
                 .movieProfile(movie.getMovieProfile())
                 .filmRating(movie.getFilmRating())
+                .avgRating(movie.getAvgRating())
                 .build();
     }
 }

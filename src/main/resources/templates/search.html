@@ -1,29 +1,260 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="no-js">
+<head><!-- Basic need --><title>영화 검색</title>
     <meta charset="UTF-8">
-    <title>검색</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="profile" href="#"><!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no"><!-- CSS files -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!--    <style>-->
+    <!--        div#tab21-h2 {-->
+    <!--            visibility: hidden;-->
+    <!--        }-->
+    <!--        div#searchframe{-->
+    <!--            float: left;-->
+    <!--        }-->
+    <!--    </style>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--    <script>-->
+    <!--        $(document).ready(function (){-->
+    <!--            $("#searchbtn").click(function (){-->
+    <!--                tab21-h2.style.visibility="visible";-->
+    <!--            });-->
+    <!--        })-->
+    <!--    </script>-->
 </head>
 <body>
-<form action="/search" method="GET">
-    <input type="text" name="keyword" placeholder="검색어를 입력해주세요"><br>
-    <button>검색</button>
-</form>
-<div>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>영화 검색</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="searchList : ${searchList}">
-            <td>
-                <span th:text="${searchList}"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<header class="ht-header">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-custom"><!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                        class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1"><span></span><span></span><span></span></div>
+                </div>
+                <a sec:authorize="isAnonymous()" th:href="@{/}"><img class="logo" th:src="@{/images/logo.png}" alt=""
+                                                                     width="119" height="58"></a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/main}"><img class="logo" th:src="@{/images/logo.png}"
+                                                                             alt="" width="119" height="58"></a>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden"><a href="#page-top"></a></li>
+                    <li class="dropdown first"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                                  data-hover="dropdown"> movies<i class="fa fa-angle-down"
+                                                                                  aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu level1">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Movie grid<i
+                                    class="ion-ios-arrow-forward"></i></a>
+                                <ul class="dropdown-menu level2">
+                                    <li><a href="moviegrid_light.html">Movie grid</a></li>
+                                    <li><a href="moviegridfw_light.html">movie grid full width</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="movielist_light.html">Movie list</a></li>
+                            <li><a href="moviesingle_light.html">Movie single</a></li>
+                            <li class="it-last"><a href="seriessingle_light.html">Series single</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown first"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                                  data-hover="dropdown"> celebrities <i class="fa fa-angle-down"
+                                                                                        aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu level1">
+                            <li><a href="celebritygrid01_light.html">celebrity grid 01</a></li>
+                            <li><a href="celebritygrid02_light.html">celebrity grid 02 </a></li>
+                            <li><a href="celebritylist_light.html">celebrity list</a></li>
+                            <li class="it-last"><a href="celebritysingle_light.html">celebrity single</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a sec:authorize="isAnonymous()" th:href="@{/anonymousNews}">뉴스게시판</a>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/news}">뉴스게시판</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right">
+                    <li>
+                        <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+                    </li>
+                    <li class="btn">
+                        <a sec:authorize="isAnonymous()" th:href="@{/join}">회원가입</a>
+                    </li>
+
+                    <li>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+                    </li>
+                    <li class="btn">
+                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">
+                            마이페이지</a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse --></nav><!-- top search form -->
+        <div class="top-search">
+            <select>
+                <option value="united">영화 제목</option>
+                <option value="saab">배우 이름</option>
+                <option value="saac">감독 이름</option>
+            </select>
+            <form action="/search" method="GET">
+                <input type="text" name="keyword" placeholder="검색어 입력">
+            </form>
+        </div>
+    </div>
+</header><!-- END | Header -->
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct"><h1>검색결과</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="buster-light"><!-- blog list section-->
+    <div class="movie-items  full-width">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title-hd"></div>
+                <div class="tabs">
+                    <ul class="tab-links-2">
+                        <li class="active"><a href="#tab21-h2"></a></li>
+                        <li><a href="#tab22-h2"></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab21-h2" class="tab active">
+                            <div class="row">
+                                <div class="slick-multiItem2">
+                                    <div th:each="searchList: ${searchList}" class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img th:src="${searchList.movieProfile}" alt="" style="height: 250px;">
+                                            </div>
+                                            <div class="hvr-inner"><a th:href="@{'/main/movie/' + ${searchList.movieOgName}}">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#" th:text="${searchList.movieName}"></a></h6>
+                                                <p><i class="ion-android-star"></i><span th:text="${searchList.avgRating}"></span>/5</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab22-h2" class="tab">
+                            <div class="row">
+                                <div class="slick-multiItem2">
+                                    <div class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img src="../images/uploads/mv-it4.jpg" alt="">
+                                            </div>
+                                            <div class="hvr-inner"><a href="moviesingle.html">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#">The walk</a></h6>
+                                                <p><i class="ion-android-star"></i><span>7.4</span>/10</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img src="../images/uploads/mv-it5.jpg" alt="">
+                                            </div>
+                                            <div class="hvr-inner"><a href="moviesingle.html">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#">Die hard</a></h6>
+                                                <p><i class="ion-android-star"></i><span>7.4</span>/10</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img src="../images/uploads/mv-it6.jpg" alt="">
+                                            </div>
+                                            <div class="hvr-inner"><a href="moviesingle.html">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#">Interstellar</a></h6>
+                                                <p><i class="ion-android-star"></i><span>7.4</span>/10</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img src="../images/uploads/mv-it7.jpg" alt="">
+                                            </div>
+                                            <div class="hvr-inner"><a href="moviesingle.html">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#">Die hard</a></h6>
+                                                <p><i class="ion-android-star"></i><span>7.4</span>/10</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="slide-it">
+                                        <div class="movie-item">
+                                            <div class="mv-img"><img src="../images/uploads/mv-it8.jpg" alt="">
+                                            </div>
+                                            <div class="hvr-inner"><a href="moviesingle.html">Read more <i
+                                                    class="ion-android-arrow-dropright"></i></a></div>
+                                            <div class="title-in"><h6><a href="#">Die hard</a></h6>
+                                                <p><i class="ion-android-star"></i><span>7.4</span>/10</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!--end of blog list section--></div><!-- footer section-->
+    <footer class="ht-footer">
+        <div class="container">
+            <div class="flex-parent-ft">
+                <div class="flex-child-ft item1"><a href="index.html"><img class="logo" src="images/logo1.png" alt=""></a>
+                    <p>5th Avenue st, manhattan<br> New York, NY 10001</p>
+                    <p>Call us: <a href="#">(+01) 202 342 6789</a></p></div>
+                <div class="flex-child-ft item2"><h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blockbuster</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Forums</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="flex-child-ft item3"><h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+                <div class="flex-child-ft item4"><h4>Account</h4>
+                    <ul>
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Watchlist</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">User Guide</a></li>
+                    </ul>
+                </div>
+                <div class="flex-child-ft item5"><h4>Newsletter</h4>
+                    <p>Subscribe to our newsletter system now <br>to get latest news from us.</p>
+                    <form action="#"><input type="text" placeholder="Enter your email..."></form>
+                    <a href="#" class="btn">Subscribe now <i class="ion-ios-arrow-forward"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="ft-copyright">
+            <div class="ft-left"><p>© 2017 Blockbuster. All Rights <a href="http://www.bootstrapmb.com/"
+                                                                      title="bootstrapmb">Reserved</a>. Designed by leehari.
+            </p></div>
+            <div class="backtotop"><p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
+            </div>
+        </div>
+    </footer><!-- end of footer section-->
+    <script src="js/jquery.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/plugins2.js"></script>
+    <script src="js/custom.js"></script>
+
 </body>
 </html>

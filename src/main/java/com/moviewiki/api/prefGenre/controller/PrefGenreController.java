@@ -21,4 +21,13 @@ public class PrefGenreController {
     @Autowired
     MovieRepository movieRepository;
 
+    @GetMapping("/evaluation")
+    public String evaluationInput(Model model){
+        List<Movie> MovieList7 = prefGenreServiceImpl.findAll();
+        List<Movie> MovieList3 = prefGenreServiceImpl.findAll2();
+        model.addAttribute("MovieList7", MovieList7);
+        model.addAttribute("MovieList3", MovieList3);
+        return "evaluation";
+    }
+
 }

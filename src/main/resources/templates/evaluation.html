@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="no-js">
+<head><!-- Basic need --><title>영화 평가</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="profile" href="#"><!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no"><!-- CSS files -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .myform fieldset{
+            display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+            direction: rtl; /* 이모지 순서 반전 */
+            border: 0; /* 필드셋 테두리 제거 */
+        }
+        .myform fieldset legend{
+            text-align: left;
+        }
+        .myform input[type=radio]{
+            display: none; /* 라디오박스 감춤 */
+        }
+        .myform label{
+            font-size: 3em; /* 이모지 크기 */
+            color: transparent; /* 기존 이모지 컬러 제거 */
+            text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+        }
+        .myform label:hover{
+            text-shadow: 0 0 0 rgb(245, 216, 3); /* 마우스 호버 */
+        }
+        .myform label:hover ~ label{
+            text-shadow: 0 0 0 rgb(245, 216, 3); /* 마우스 호버 뒤에오는 이모지들 */
+        }
+        .myform input[type=radio]:checked ~ label{
+            text-shadow: 0 0 0 rgb(245, 216, 3); /* 마우스 클릭 체크 */
+        }
+        div.movie_section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        div.movie_picture{
+            float: left;
+            margin-right: 50px;
+        }
+        div.movie_rating{
+            display: inline-block;
+        }
+        div.hr{
+            margin: 0px auto;
+            width: 80%;
+            padding-top: 2%;
+            padding-bottom: 1%;
+        }
+        #btndiv{
+            text-align: center;
+            padding-top: 30px;
+        }
+        #btn{
+            background-color: #dd003f;
+            color:#FFFFFF;
+            font-size: 16px;
+            border-radius: 18px;
+            width: 105px;
+            height: 45px;
+            outline: 0;
+            border: 0;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function btn(){
+            alert('영화 평가가 완료되었어요!');
+            location.reload();
+        }
+    </script>
+
+</head>
+<body>
+<header class="ht-header">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-custom"><!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
+                        class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1"><span></span><span></span><span></span></div>
+                </div>
+                <a sec:authorize="isAnonymous()" th:href="@{/}"><img class="logo" th:src="@{/images/logo.png}" alt=""
+                                                                     width="119" height="58"></a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/main}"><img class="logo" th:src="@{/images/logo.png}"
+                                                                             alt="" width="119" height="58"></a>
+            </div><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden"><a href="#page-top"></a></li>
+                    <li class="dropdown first"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                                  data-hover="dropdown"> movies<i class="fa fa-angle-down"
+                                                                                  aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu level1">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Movie grid<i
+                                    class="ion-ios-arrow-forward"></i></a>
+                                <ul class="dropdown-menu level2">
+                                    <li><a href="moviegrid_light.html">Movie grid</a></li>
+                                    <li><a href="moviegridfw_light.html">movie grid full width</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="movielist_light.html">Movie list</a></li>
+                            <li><a href="moviesingle_light.html">Movie single</a></li>
+                            <li class="it-last"><a href="seriessingle_light.html">Series single</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown first"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                                  data-hover="dropdown"> celebrities <i class="fa fa-angle-down"
+                                                                                        aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu level1">
+                            <li><a href="celebritygrid01_light.html">celebrity grid 01</a></li>
+                            <li><a href="celebritygrid02_light.html">celebrity grid 02 </a></li>
+                            <li><a href="celebritylist_light.html">celebrity list</a></li>
+                            <li class="it-last"><a href="celebritysingle_light.html">celebrity single</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a sec:authorize="isAnonymous()" th:href="@{/anonymousNews}">뉴스게시판</a>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/news}">뉴스게시판</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right">
+                    <li>
+                        <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+                    </li>
+                    <li class="btn">
+                        <a sec:authorize="isAnonymous()" th:href="@{/join}">회원가입</a>
+                    </li>
+
+                    <li>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+                    </li>
+                    <li class="btn">
+                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">
+                            마이페이지</a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse --></nav><!-- top search form -->
+        <div class="top-search">
+            <select>
+                <option value="united">영화 제목</option>
+                <option value="saab">배우 이름</option>
+                <option value="saac">감독 이름</option>
+            </select>
+            <form action="/search" method="GET">
+                <input type="text" name="keyword" placeholder="검색어 입력">
+            </form>
+        </div>
+    </div>
+</header><!-- END | Header -->
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct"><h1>과거에 본 작품을 찾아 평가해보세요.</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="buster-light"><!-- blog list section-->
+    <div class="page-single">
+        <div class="container">
+            <div th:each="MovieList7 : ${MovieList7.get(0)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="0rate1"><label for="0rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="0rate2"><label for="0rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="0rate3"><label for="0rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="0rate4"><label for="0rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="0rate5"><label for="0rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(1)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="1rate1"><label for="1rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="1rate2"><label for="1rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="1rate3"><label for="1rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="1rate4"><label for="1rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="1rate5"><label for="1rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(2)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="2rate1"><label for="2rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="2rate2"><label for="2rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="2rate3"><label for="2rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="2rate4"><label for="2rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="2rate5"><label for="2rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(3)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="3rate1"><label for="3rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="3rate2"><label for="3rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="3rate3"><label for="3rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="3rate4"><label for="3rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="3rate5"><label for="3rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(4)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="4rate1"><label for="4rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="4rate2"><label for="4rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="4rate3"><label for="4rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="4rate4"><label for="4rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="4rate5"><label for="4rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(5)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="5rate1"><label for="5rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="5rate2"><label for="5rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="5rate3"><label for="5rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="5rate4"><label for="5rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="5rate5"><label for="5rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList7 : ${MovieList7.get(6)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList7.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList7.movieName}"></h2>
+                    <h5 th:text="${MovieList7.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="6rate1"><label for="6rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="6rate2"><label for="6rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="6rate3"><label for="6rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="6rate4"><label for="6rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="6rate5"><label for="6rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList3, num : ${MovieList3.get(0)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList3.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList3.movieName}"></h2>
+                    <h5 th:text="${MovieList3.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="7rate1"><label for="7rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="7rate2"><label for="7rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="7rate3"><label for="7rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="7rate4"><label for="7rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="7rate5"><label for="7rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList3, num : ${MovieList3.get(1)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList3.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList3.movieName}"></h2>
+                    <h5 th:text="${MovieList3.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="8rate1"><label for="8rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="8rate2"><label for="8rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="8rate3"><label for="8rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="8rate4"><label for="8rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="8rate5"><label for="8rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div th:each="MovieList3, num : ${MovieList3.get(2)}" class="movie_section">
+                <div class="movie_picture">
+                    <img th:src="${MovieList3.movieProfile}" height="120" width="80"/>
+                    </a>
+                </div>
+                <div class="movie_rating">
+                    <h2 th:text="${MovieList3.movieName}"></h2>
+                    <h5 th:text="${MovieList3.releaseDate}"></h5>
+                    <form name="myform" class="myform" method="post" action="/evaluation">
+                        <fieldset>
+                            <legend></legend>
+                            <input type="radio" name="rating" value="5" id="9rate1"><label for="9rate1">⭐</label>
+                            <input type="radio" name="rating" value="4" id="9rate2"><label for="9rate2">⭐</label>
+                            <input type="radio" name="rating" value="3" id="9rate3"><label for="9rate3">⭐</label>
+                            <input type="radio" name="rating" value="2" id="9rate4"><label for="9rate4">⭐</label>
+                            <input type="radio" name="rating" value="1" id="9rate5"><label for="9rate5">⭐</label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div id="btndiv">
+                <input id="btn" type="submit" value="평가완료" onclick="javascript:btn()">
+            </div>
+
+            <!--            <form id="btnsb" name="input" method="post" action="/evaluation">-->
+            <!--                -->
+            <!--            </form>-->
+
+        </div>
+    </div>
+</div><!--end of blog list section--></div><!-- footer section-->
+<footer class="ht-footer">
+    <div class="container">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1"><a href="index.html"><img class="logo" src="images/logo1.png" alt=""></a>
+                <p>5th Avenue st, manhattan<br> New York, NY 10001</p>
+                <p>Call us: <a href="#">(+01) 202 342 6789</a></p></div>
+            <div class="flex-child-ft item2"><h4>Resources</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blockbuster</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Forums</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3"><h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4"><h4>Account</h4>
+                <ul>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Watchlist</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">User Guide</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5"><h4>Newsletter</h4>
+                <p>Subscribe to our newsletter system now <br>to get latest news from us.</p>
+                <form action="#"><input type="text" placeholder="Enter your email..."></form>
+                <a href="#" class="btn">Subscribe now <i class="ion-ios-arrow-forward"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="ft-copyright">
+        <div class="ft-left"><p>© 2017 Blockbuster. All Rights <a href="http://www.bootstrapmb.com/"
+                                                                  title="bootstrapmb">Reserved</a>. Designed by leehari.
+        </p></div>
+        <div class="backtotop"><p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
+        </div>
+    </div>
+</footer><!-- end of footer section-->
+<script src="js/jquery.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/plugins2.js"></script>
+<script src="js/custom.js"></script>
+
+</body>
+</html>

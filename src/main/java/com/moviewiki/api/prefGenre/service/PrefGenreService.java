@@ -20,4 +20,10 @@ public interface PrefGenreService {
 
     // 민형 - 유저로 선호 장르 리스트
     List<PrefGenre> prefGenreList(User user);
+
+    // 주희 - 선호도 목록 받아오기1
+    public List<Movie> findAll();
+
+    // 주희 - 선호도 목록 받아오기2
+    public List<Movie> findAll2();
 }

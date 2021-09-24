@@ -23,6 +23,7 @@ public class MovieForm {
     private String filmRating;
     private List<String> genreId;
     private String summary;
+    private double avgRating;
 
 
     // 검색 TEST
@@ -32,15 +33,17 @@ public class MovieForm {
                 .movieOgName(movieOgName)
                 .movieProfile(movieProfile)
                 .filmRating(filmRating)
+                .avgRating(avgRating)
                 .build();
         return movie;
     }
 
     @Builder
-    public MovieForm(String movieName, String movieOgName, String movieProfile, String filmRating) {
+    public MovieForm(String movieName, String movieOgName, String movieProfile, String filmRating, double avgRating) {
         this.movieName = movieName;
         this.movieOgName = movieOgName;
         this.movieProfile = movieProfile;
         this.filmRating = filmRating;
+        this.avgRating = avgRating;
     }
 }

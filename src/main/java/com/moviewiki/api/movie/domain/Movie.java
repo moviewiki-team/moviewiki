@@ -38,10 +38,10 @@ public class Movie {
     private String movieProfile;
     @Column(name = "RELEASE_DATE", columnDefinition = "DATE")
     private Date releaseDate;
+    @Column(name = "RUNNIGTIME")
     private int runningTime;
     @Column(columnDefinition = "LONG")
     private String summary;
-
     @Column(name = "AVG_RATING")
     private double avgRating;
     @Column(name = "REVIEW_COUNT")

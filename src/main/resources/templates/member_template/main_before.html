@@ -41,6 +41,15 @@
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
                     <li>
+                        <div class="top-search">
+                            <!--                            <select>-->
+                            <!--                                <option value="united"></option>-->
+                            <!--&lt;!&ndash;                                <option value="saab">Others</option>&ndash;&gt;-->
+                            <!--                            </select>-->
+                            <input type="text" placeholder="Search">
+                        </div>
+                    </li>
+                    <li>
                         <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
                     </li>
                     <li class="btn">
