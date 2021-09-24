@@ -55,14 +55,14 @@ public class PrefGenreServiceImpl implements PrefGenreService {
 
     // 선호 장르 영화 추천
     @Override
-    public List<Movie> findAll(){
+    public List<Movie> findAll(String userName){
         String sql = "SELECT * FROM MOVIES\n" +
                 "WHERE MOVIE_ID IN(\n" +
-                "SELECT MOVIE_ID FROM MOVIE_GENRE\n" +
+                "SELECT MOVIE_ID FROM MOVIE_GENRES\n" +
                 "WHERE GENRE_ID IN\n" +
                 "    (SELECT GENRE_ID from PREF_GENRES \n" +
                 "    where GENRE_POINT =\n" +
-                "        (select max(GENRE_POINT) from PREF_GENRES where USER_ID = 'veddy0')))";
+                "        (select max(GENRE_POINT) from PREF_GENRES where USER_ID = '"+userName+"')))";
         List<Movie> recGenreList = em.createNativeQuery(sql, Movie.class).getResultList();
         return recGenreList.subList(0, 12);
     }
@@ -73,5 +73,6 @@ public class PrefGenreServiceImpl implements PrefGenreService {
     public List<PrefGenre> prefGenreList(User user) {
         return prefGenreRepository.findByUser(user);
     }
+
 
 }

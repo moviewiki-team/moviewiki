@@ -41,6 +41,15 @@
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
                     <li>
+                        <div class="top-search">
+                            <!--                            <select>-->
+                            <!--                                <option value="united"></option>-->
+                            <!--&lt;!&ndash;                                <option value="saab">Others</option>&ndash;&gt;-->
+                            <!--                            </select>-->
+                            <input type="text" placeholder="Search">
+                        </div>
+                    </li>
+                    <li>
                         <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
                     </li>
                     <li class="btn">
@@ -50,10 +59,10 @@
                     <li>
                         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
                     </li>
-<!--                    <li class="btn">-->
-<!--                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">-->
-<!--                            마이페이지</a>-->
-<!--                    </li>-->
+                    <li class="btn">
+                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">
+                            마이페이지</a>
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav><!-- search form -->
@@ -147,7 +156,7 @@
                                             <div class="movie-item">
                                                 <div class="mv-img"><img th:src="${movie.movieProfile}" alt="" style="height: 250px;">
                                                 </div>
-                                                <div class="hvr-inner"><a th:href="@{'/main/movie/' + ${movie.movieId}}">Read more <i
+                                                <div class="hvr-inner"><a th:href="@{'/main/nonMember/movie/' + ${movie.movieId}}">Read more <i
                                                         class="ion-android-arrow-dropright"></i></a></div>
                                                 <div class="title-in"><h6><a href="#" th:text="${movie.movieName}"></a></h6>
                                                     <p><i class="ion-android-star"></i><span th:text="${movie.avgRating}"></span>/5</p></div>
@@ -171,7 +180,7 @@
                                             <div class="movie-item">
                                                 <div class="mv-img"><img th:src="${movie.movieProfile}" alt="" style="height: 250px;">
                                                 </div>
-                                                <div class="hvr-inner"><a th:href="@{'/main/movie/' + ${movie.movieId}}">Read more <i
+                                                <div class="hvr-inner"><a th:href="@{'/main/nonMember/movie/' + ${movie.movieId}}">Read more <i
                                                         class="ion-android-arrow-dropright"></i></a></div>
                                                 <div class="title-in"><h6><a href="#" th:text="${movie.movieName}"></a></h6>
                                                     <p><i class="ion-android-star"></i><span th:text="${movie.avgRating}"></span>/5</p></div>
@@ -195,7 +204,7 @@
                                             <div class="movie-item">
                                                 <div class="mv-img"><img th:src="${movie.movieProfile}" alt="" style="height: 250px;">
                                                 </div>
-                                                <div class="hvr-inner"><a th:href="@{'/main/movie/' + ${movie.movieId}}">Read more <i
+                                                <div class="hvr-inner"><a th:href="@{'/main/nonMember/movie/' + ${movie.movieId}}">Read more <i
                                                         class="ion-android-arrow-dropright"></i></a></div>
                                                 <div class="title-in"><h6><a href="#" th:text="${movie.movieName}"></a></h6>
                                                     <p><i class="ion-android-star"></i><span th:text="${movie.avgRating}"></span>/5</p></div>

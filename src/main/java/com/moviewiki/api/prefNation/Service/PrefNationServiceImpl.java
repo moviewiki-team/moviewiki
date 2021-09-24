@@ -57,17 +57,18 @@ public class PrefNationServiceImpl implements PrefNationService {
     @Override
     public List<PrefNation> prefNationList(User user) {
         return prefNationRepository.findByUser(user);
-
+    }
 
     // 선호 국가 영화 추천
     @Override
-    public List<Movie> findAll(){
+    public List<Movie> findAll(String userName){
         String sql = "SELECT * FROM MOVIES\n" +
                 "WHERE MOVIE_ID IN(\n" +
-                "                SELECT MOVIE_ID FROM MOVIE_NATION\n" +
-                "                WHERE NATION_ID IN\n" +
-                "                (SELECT NATION_ID from PREF_NATIONS where NATION_POINT =\n" +
-                "                (select max(NATION_POINT) from PREF_NATIONS where USER_ID = 'veddy0')))";
+                "SELECT MOVIE_ID FROM MOVIE_NATIONS\n" +
+                "WHERE NATION_ID IN\n" +
+                "    (SELECT NATION_ID from PREF_NATIONS \n" +
+                "    where NATION_POINT =\n" +
+                "        (select max(NATION_POINT) from PREF_NATIONS where USER_ID = '"+userName+"')))";
         List<Movie> recNationList = em.createNativeQuery(sql, Movie.class).getResultList();
         return recNationList.subList(0, 12);
 

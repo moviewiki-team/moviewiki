@@ -1,5 +1,6 @@
 package com.moviewiki.api.prefActor.Service;
 
+import com.moviewiki.api.movie.domain.Movie;
 import com.moviewiki.api.prefActor.domain.PrefActor;
 import com.moviewiki.api.review.domain.Review;
 import com.moviewiki.api.user.domain.User;
@@ -10,6 +11,8 @@ public interface PrefActorService {
 
     void updatePrefActor(Review review);
 
+    // 선호 배우 영화 추천
+    public List<Movie> findAll(String userName);
 
     // 민형 - 유저로 선호 배우 리스트
     List<PrefActor> prefActorList(User user);
