@@ -28,12 +28,6 @@ public class WantToSeeController {
     private UserManagementServiceImpl userManagementService;
 
 
-    /* 사용x : 보고 싶은 영화 등록 */
-    @GetMapping("/want/create")
-    public String wantForm(){
-        return "member/want_add";
-    }
-
     /* 관심 영화 추가 */
     @PostMapping("/addWant")
     public String addWant(HttpServletRequest request){
@@ -44,7 +38,7 @@ public class WantToSeeController {
         User user = userManagementService.getUser(userId);
 
         wantToSeeServiceImpl.save(user, movie);
-        return "redirect:/movie/detail2/" + movieId;
+        return "redirect:/main/movie/" + movieId;
     }
 
     /* 관심영화 삭제 */
@@ -59,7 +53,8 @@ public class WantToSeeController {
 
         wantToSeeServiceImpl.deleteWantToSee(user, movie);
 
-        return "redirect:/main/movie" + movieId;
+
+        return "redirect:/main/movie/" + movieId;
     }
 
     /* 특정 사용자의 보고픈 영화 조회 */

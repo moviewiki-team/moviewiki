@@ -11,32 +11,22 @@
     <!-- Mobile specific meta -->
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone-no"><!-- CSS files -->
-    <link rel="stylesheet" href="../../css/plugins.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <style>
-        .btns{
-            background-color: rgb( 221, 0, 63);
-            font-family: 'Dosis', sans-serif;
-            border-radius: 20px;
-            color: white;
-            padding: 11px 15px;
-            font-weight: bold;
-            font-size: 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../../css/plugins.css">
+    <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
-<!-- 헤더(메뉴바) -->
-<header class="ht-header full-width-hd" id="header-light">
-    <div class="row">
-        <nav id="mainNav" class="navbar navbar-default navbar-custom">
-            <!-- Brand and toggle get grouped for better mobile display -->
+<header class="ht-header">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-custom"><!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header logo">
                 <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><span
                         class="sr-only">Toggle navigation</span>
                     <div id="nav-icon1"><span></span><span></span><span></span></div>
                 </div>
-                <a href="index_light.html"><img class="logo" src="/images/logo.png" alt="" width="200" height="100"></a>
+                <a sec:authorize="isAnonymous()" th:href="@{/}"><img class="logo" th:src="@{/images/logo.png}" alt=""
+                                                                     width="200" height="100"></a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/main}"><img class="logo" th:src="@{/images/logo.png}"
+                                                                             alt="" width="200" height="100"></a>
             </div><!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav flex-child-menu menu-left">
@@ -61,18 +51,21 @@
                     <li>
                         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
                     </li>
-                    <li class="btn">
-                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">
-                            마이페이지</a>
-                    </li>
+<!--                    <li class="btn">-->
+<!--                        <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{'/member/mypage/' + ${currentUserId}}">-->
+<!--                            마이페이지</a>-->
+<!--                    </li>-->
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav><!-- search form -->
+            </div><!-- /.navbar-collapse --></nav><!-- top search form -->
+        <div class="top-search"><select>
+            <option value="united">TV show</option>
+            <option value="saab">Others</option>
+        </select><input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
+        </div>
     </div>
 </header><!-- END | Header -->
 
-
-<!-- 로그인 후 영화 상세페이지 -->
+<!-- 로그인 전 영화 상세페이지 -->
 <div class="buster-light">
     <div class="hero mv-single-hero">
         <div class="container">
@@ -123,16 +116,16 @@
                                 </span>
                             </span>
                         </div>
-                        <div sec:authorize="isAnonymous" class="social-btn" th:switch="${movie.movieId}" style="visibility:hidden;">
-                            <button class="btns" type="submit">
-                                <br>
-                            </button>
-                        </div>
                         <div class="movie-rate">
                             <div class="rate"><i class="ion-android-star"></i>
+                                <!-- 우선 평점이 null값이므로 몇세 관람가인지 넣어봄-->
                                 <!-- 평점-->
                                 <p><span th:text="${movie.avgRating}"></span></p>
                             </div>
+<!--                            <div class="rate-star"><p>Rate This Movie:</p><i class="ion-ios-star"></i><i-->
+<!--                                    class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i-->
+<!--                                    class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i-->
+<!--                                    class="ion-ios-star"></i><i class="ion-ios-star-outline"></i></div>-->
                         </div>
                         <div class="movie-tabs">
                             <div class="tabs">
@@ -154,7 +147,7 @@
                                                         <div class="cast-left"><img src="../../images/uploads/cast1.jpg"
                                                                                     alt=""><a th:href="@{'/movie/actor/4'}">Robert Downey
                                                             Jr.</a>
-                                                            <p>... Robert Downey Jr.</p></div></div>
+                                                        <p>... Robert Downey Jr.</p></div></div>
                                                     <div class="cast-it">
                                                         <div class="cast-left"><img src="../../images/uploads/cast2.jpg"
                                                                                     alt=""><a th:href="@{'/movie/actor/5'}">Chris
@@ -449,13 +442,13 @@
                                             <div class="title-hd-sm"><h4>Directors & Credit Writers</h4></div>
                                             <div class="mvcast-item">
                                                 <div class="cast-it">
-                                                    <div class="cast-left"><h4>JW</h4><a th:href="@{'/movie/director/4'}">Joss Whedon</a></div>
+                                                    <div class="cast-left"><h4>JW</h4><a href="#">Joss Whedon</a></div>
                                                     <p>... Director</p></div>
                                             </div><!-- //== -->
                                             <div class="title-hd-sm"><h4>Directors & Credit Writers</h4></div>
                                             <div class="mvcast-item">
                                                 <div class="cast-it">
-                                                    <div class="cast-left"><h4>SL</h4><a th:href="@{'/movie/director/4'}">Stan Lee</a></div>
+                                                    <div class="cast-left"><h4>SL</h4><a href="#">Stan Lee</a></div>
                                                     <p>... (based on Marvel comics)</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><h4>JK</h4><a href="#">Jack Kirby</a></div>
@@ -476,35 +469,36 @@
                                             <div class="title-hd-sm"><h4>Cast</h4></div>
                                             <div class="mvcast-item">
                                                 <div class="cast-it">
-                                                    <div class="cast-left"><img src="../../images/uploads/cast1.jpg" alt=""><<a th:href="@{'/movie/actor/4'}">Robert Downey Jr.</a></div>
+                                                    <div class="cast-left"><img src="../../images/uploads/cast1.jpg" alt=""><a
+                                                            href="#">Robert Downey Jr.</a></div>
                                                     <p>... Robert Downey Jr.</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast2.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/5'}">Chris Hemsworth</a></div>
+                                                            href="#">Chris Hemsworth</a></div>
                                                     <p>... Thor</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast3.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/6'}">Mark Ruffalo</a></div>
+                                                            href="#">Mark Ruffalo</a></div>
                                                     <p>... Bruce Banner/ Hulk</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast4.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/7'}">Chris Evans</a></div>
+                                                            href="#">Chris Evans</a></div>
                                                     <p>... Steve Rogers/ Captain America</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast5.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/8'}">Scarlett Johansson</a></div>
+                                                            href="#">Scarlett Johansson</a></div>
                                                     <p>... Natasha Romanoff/ Black Widow</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast6.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/9'}">Jeremy Renner</a></div>
+                                                            href="#">Jeremy Renner</a></div>
                                                     <p>... Clint Barton/ Hawkeye</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast7.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/10'}">James Spader</a></div>
+                                                            href="#">James Spader</a></div>
                                                     <p>... Ultron</p></div>
                                                 <div class="cast-it">
                                                     <div class="cast-left"><img src="../../images/uploads/cast9.jpg" alt=""><a
-                                                            th:href="@{'/movie/actor/11'}">Don Cheadle</a></div>
+                                                            href="#">Don Cheadle</a></div>
                                                     <p>... James Rhodes/ War Machine</p></div>
                                             </div><!-- //== -->
                                             <div class="title-hd-sm"><h4>Produced by</h4></div>

@@ -12,6 +12,7 @@ import com.moviewiki.api.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,15 +24,24 @@ public class PrefActorServiceImpl implements PrefActorService {
     private ReviewRepository reviewRepository;
     @Autowired
     private PrefActorRepository prefActorRepository;
-    @Autowired
+
     private ActorFilmographyRepository actorFilmographyRepository;
 
-//    @Autowired
-//    public PrefActorServiceImpl(ReviewRepository reviewRepository, PrefActorRepository prefActorRepository, ActorFilmographyRepository actorFilmographyRepository) {
-//        this.reviewRepository = reviewRepository;
-//        this.prefActorRepository = prefActorRepository;
-//        this.actorFilmographyRepository = actorFilmographyRepository;
-//    }
+    private final EntityManager em;
+
+    public PrefActorServiceImpl(EntityManager em) {
+        this.em = em;
+    }
+
+    @Autowired
+    public PrefActorServiceImpl(ReviewRepository reviewRepository, PrefActorRepository prefActorRepository, ActorFilmographyRepository actorFilmographyRepository,EntityManager em) {
+
+        this.reviewRepository = reviewRepository;
+        this.prefActorRepository = prefActorRepository;
+        this.actorFilmographyRepository = actorFilmographyRepository;
+        this.em = em;
+    }
+
 
     // 효미 - 배우 선호도 업데이트
     @Override
@@ -58,6 +68,19 @@ public class PrefActorServiceImpl implements PrefActorService {
         prefActorRepository.save(prefActor); //PrefActors 테이블에 저장
     }
 
+    // 선호 배우 영화 추천
+    @Override
+    public List<Movie> findAll(String userName){
+        String sql = "SELECT * FROM MOVIES\n" +
+                "WHERE MOVIE_ID IN(\n" +
+                "SELECT MOVIE_ID FROM ACTOR_FILMOGRAPHY\n" +
+                "WHERE ACTOR_ID IN\n" +
+                "    (SELECT ACTOR_ID from PREF_ACTORS \n" +
+                "    where ACTOR_POINT =\n" +
+                "        (select max(ACTOR_POINT) from PREF_ACTORS where USER_ID = '"+userName+"')))";
+        List<Movie> recActorList = em.createNativeQuery(sql, Movie.class).getResultList();
+        return recActorList.subList(0, 12);
+    }
 
     // 민형 - 유저로 선호 배우 리스트
     @Override
