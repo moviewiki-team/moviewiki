@@ -1,5 +1,6 @@
 package com.moviewiki.api.prefGenre.repository;
 
+import com.moviewiki.api.genre.domain.Genre;
 import com.moviewiki.api.prefActor.domain.PrefActor;
 import com.moviewiki.api.prefGenre.domain.PrefGenre;
 import com.moviewiki.api.prefGenre.domain.PrefGenrePK;
@@ -17,5 +18,5 @@ public interface PrefGenreRepository extends JpaRepository<PrefGenre, PrefGenreP
 //     void savePrefGenre(PrefGenre prefGenre);
 
     // 민형 - 유저로 선호 장르 리스트
-    List<PrefGenre> findByUser(User user);
+    List<PrefGenre> findByUserOrderByGenrePointDesc(User user);
 }

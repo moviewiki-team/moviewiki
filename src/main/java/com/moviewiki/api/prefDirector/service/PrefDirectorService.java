@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface PrefDirectorService {
 
+    // 효미 - 감독 선호도 업데이트
     void updatePrefDirector(Review review);
 
     // 선호 감독 영화 추천

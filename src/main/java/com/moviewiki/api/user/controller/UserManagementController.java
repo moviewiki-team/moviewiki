@@ -57,6 +57,7 @@ public class UserManagementController {
         model.addAttribute("movieDate", movieServiceImpl.findAllOrderByDate());
         model.addAttribute("movieReviewCount", movieServiceImpl.findAllOrderByReviewCount());
         model.addAttribute("movieRating", movieServiceImpl.findAllOrderByRating());
+
         return "member_template/main_before";
     }
 
@@ -215,9 +216,9 @@ public class UserManagementController {
     // 비밀번호 확인 페이지 form call
     @GetMapping("/member/check_pw")
     public String checkPwPage(Authentication auth, Model model) {
-        String userId = auth.getName();
-        model.addAttribute("userId", userId);
-        log.info("userId===========" + userId);
+        String currentUserId = auth.getName();
+        model.addAttribute("currentUserId", currentUserId);
+        log.info("userId===========" + currentUserId);
         return "/member/check_pw";
     }
 
@@ -227,6 +228,11 @@ public class UserManagementController {
         String userId = request.getParameter("userId");
         String userPw = request.getParameter("userPw");
 
+        log.info("userId =========" + userId);
+        log.info("userPw =========" + userPw);
+
+
+
         User DBUser = userManagementService.getUser(userId);
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -234,7 +240,7 @@ public class UserManagementController {
             return "redirect:/member/modify_info";
         }
         System.out.println("비밀번호가 올바르지 않습니다."); // 모달창?
-        return "redirect:/member/check_pw";
+        return "redirect:/member/check_pw_get";
     }
 
 

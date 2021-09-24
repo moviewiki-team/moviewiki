@@ -28,12 +28,6 @@ public class WantToSeeController {
     private UserManagementServiceImpl userManagementService;
 
 
-    /* 사용x : 보고 싶은 영화 등록 */
-    @GetMapping("/want/create")
-    public String wantForm(){
-        return "member/want_add";
-    }
-
     /* 관심 영화 추가 */
     @PostMapping("/addWant")
     public String addWant(HttpServletRequest request){
@@ -58,6 +52,7 @@ public class WantToSeeController {
         Movie movie = movieServiceImpl.findByMovieId(movieId);
 
         wantToSeeServiceImpl.deleteWantToSee(user, movie);
+
 
         return "redirect:/main/movie/" + movieId;
     }
